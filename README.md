@@ -30,7 +30,7 @@ cp .env.example .env
 ```
 
 В `.env` укажите данные ящика. Используйте **пароль приложения**, а не пароль
-от аккаунта: https://id.yandex.ru/security/app-passwords
+от аккаунта: `https://id.yandex.ru/security/app-passwords`
 
 ```ini
 IMAP_USER=your-address@yandex.ru
