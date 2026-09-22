@@ -1,0 +1,19 @@
+[project]
+name = "imapclient-yandex"
+version = "0.1.0"
+description = "Spike: monitor Yandex Mail via IMAP"
+requires-python = ">=3.11"
+dependencies = [
+  "imapclient>=3.0",
+  "pydantic>=2.9",
+  "pydantic-settings>=2.6",
+]
+
+[dependency-groups]
+dev = [
+  "ruff>=0.7",
+  "mypy>=1.13",
+]
+
+[tool.ruff]
+line-length = 100
