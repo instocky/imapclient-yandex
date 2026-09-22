@@ -1,7 +1,10 @@
 """Inspect the Yandex Mail IMAP spike SQLite database."""
 
 import sqlite3
+import sys
 from pathlib import Path
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # readable output on capture
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "mail.db"
 
