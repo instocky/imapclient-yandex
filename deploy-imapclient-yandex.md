@@ -118,6 +118,33 @@ cd /opt/imapclient-yandex
 uv run python scripts/inspect_db.py
 ```
 
+## 11. Обновление (update)
+
+После изменений в репозитории — как накатить на сервер:
+
+```bash
+ssh adlab@SERVER_IP
+cd /opt/imapclient-yandex
+git pull
+# только если менялись pyproject.toml / uv.lock:
+uv sync
+# если менялась cron-строка (напр. редирект в лог) — пересоздайте задание:
+crontab -e
+```
+
+> Каждый прогон cron вызывает `uv run python main.py` заново, поэтому перезапуск сервиса не нужен — изменения подхватятся следующим запуском (в течение 30 мин).
+
+Проверить, что всё ок:
+
+```bash
+tail -n 50 /opt/imapclient-yandex/cron.log
+```
+
+### Что проверять после pull
+- **Менялся `main.py`** → если лог пишется самим приложением (через `logging`), shell-редирект `>> cron.log 2>&1` в crontab **должен быть убран** (иначе после ротации cron пишет в переименованный старый файл).
+- **Менялся `.env.example`** → сверьте с вашим `.env` (не коммитится).
+- **Менялся `scripts/`** → перепроверьте `uv run python scripts/inspect_db.py`.
+
 ## Структура на сервере
 
 ```text
