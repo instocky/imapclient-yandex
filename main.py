@@ -4,8 +4,10 @@ Run via cron (or manually). Dedup by IMAP uid keeps re-runs clean.
 """
 
 import email.header
+import logging
 import sqlite3
 import sys
+from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
 from imapclient import IMAPClient
@@ -14,6 +16,22 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # readable output on capture
 
 DB_PATH = Path("data/mail.db")
+LOG_PATH = Path("cron.log")
+LOG = logging.getLogger("imapclient-yandex")
+
+
+def _configure_logging() -> None:
+    """File log with daily rotation + console mirror. App owns cron.log now."""
+    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
+    file_h = TimedRotatingFileHandler(
+        LOG_PATH, when="midnight", interval=1, backupCount=7, encoding="utf-8"
+    )
+    file_h.setFormatter(fmt)
+    LOG.addHandler(file_h)
+    stream_h = logging.StreamHandler()
+    stream_h.setFormatter(fmt)
+    LOG.addHandler(stream_h)
+    LOG.setLevel(logging.INFO)
 
 
 class Settings(BaseSettings):
@@ -99,22 +117,22 @@ def fetch_new_emails(client: IMAPClient, conn: sqlite3.Connection) -> None:
     # re-downloading bodies of old mail every run.
     uids = client.search("ALL")
     if not uids:
-        print("No emails.")
+        LOG.info("No emails.")
         return
     missing = [u for u in uids if u not in _stored_uids(conn)]
     if not missing:
-        print("No new emails.")
+        LOG.info("No new emails.")
         return
     data = client.fetch(missing, ["ENVELOPE", "BODY[TEXT]"])
     for uid, msg in data.items():
         if not _store(conn, uid, msg):
             continue  # already processed in a previous run
         env = msg[b"ENVELOPE"]
-        print(f"From: {_format_sender(env)}")
-        print(f"Subject: {_decode(env.subject)}")
-        print(f"Date: {env.date}")
-        print(f"Body: {_decode(msg.get(b'BODY[TEXT]'))[:500]}")
-        print("-" * 40)
+        LOG.info(f"From: {_format_sender(env)}")
+        LOG.info(f"Subject: {_decode(env.subject)}")
+        LOG.info(f"Date: {env.date}")
+        LOG.info(f"Body: {_decode(msg.get(b'BODY[TEXT]'))[:500]}")
+        LOG.info("-" * 40)
     conn.commit()
 
 
@@ -126,11 +144,15 @@ def run_once(settings: Settings, conn: sqlite3.Connection) -> None:
 
 
 def main() -> None:
+    _configure_logging()
     settings = Settings()
     conn = _init_db()
-    print("Connect -> authenticate -> INBOX -> find new emails -> persist -> print")
+    LOG.info("Connect -> authenticate -> INBOX -> find new emails -> persist -> print")
     try:
         run_once(settings, conn)
+    except Exception:
+        LOG.exception("run failed")
+        raise
     finally:
         conn.close()
 

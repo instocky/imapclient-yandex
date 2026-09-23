@@ -76,11 +76,13 @@ uv run python main.py
 crontab -e
 ```
 
-Добавить:
+Добавить (без редиректа в файл — логом теперь владеет само приложение через `logging` + `TimedRotatingFileHandler`):
 
 ```cron
-*/30 * * * * cd /opt/imapclient-yandex && /home/adlab/.local/bin/uv run python main.py >> /opt/imapclient-yandex/cron.log 2>&1
+*/30 * * * * cd /opt/imapclient-yandex && /home/adlab/.local/bin/uv run python main.py
 ```
+
+> Важно: не добавляйте `>> cron.log 2>&1`. Приложение само пишет в `cron.log` и ротирует его в полночь. Если оставить shell-редирект, после ротации cron продолжит писать в переименованный старый файл.
 
 Проверить:
 
@@ -90,6 +92,9 @@ crontab -l
 
 ## 9. Проверка лога
 
+Активный лог — `cron.log`, формат: `YYYY-MM-DD HH:MM:SS,mmm LEVEL message`.
+Ротированные копии за 7 дней — `cron.log.YYYY-MM-DD` (снимаются в полночь).
+
 ```bash
 tail -f /opt/imapclient-yandex/cron.log
 ```
@@ -98,6 +103,12 @@ tail -f /opt/imapclient-yandex/cron.log
 
 ```bash
 tail -n 50 /opt/imapclient-yandex/cron.log
+```
+
+Список ротированных файлов:
+
+```bash
+ls -1 /opt/imapclient-yandex/cron.log*
 ```
 
 ## 10. Просмотр SQLite
