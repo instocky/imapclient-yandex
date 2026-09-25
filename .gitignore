@@ -2,8 +2,9 @@
 .venv
 __pycache__/
 data/
+cron.log
+cron.log.*
 
 # User
 notes.md
-tmp/cron.log
-cron.log.*
+tmp/
