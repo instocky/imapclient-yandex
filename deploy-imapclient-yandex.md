@@ -71,15 +71,34 @@ ACCOUNTS=[{"user":"first@yandex.ru","password":"app-password-1"},{"user":"second
 uv run python -c "import sqlite3;sqlite3.connect('data/mail.db').execute('DELETE FROM state')"
 ```
 
-## 7. Тестовый запуск
+## 7. Проверка учётных данных
 
 ```bash
-uv run python main.py
+cd /opt/imapclient-yandex
+uv run python scripts/check_accounts.py
 ```
 
-Проверить, что письма забираются без ошибок.
+Для каждого аккаунта: логин + `STATUS` по `INBOX`, письма не читаются, в базу
+ничего не пишется. Код возврата `1`, если хоть один аккаунт не прошёл — удобно
+для проверки из скрипта:
 
-## 8. Cron — запуск каждые 30 минут
+```bash
+uv run python scripts/check_accounts.py && echo "все аккаунты живы"
+```
+
+Ошибка `AUTHENTICATIONFAILED` = пароль приложения отозван или IMAP выключен в
+настройках ящика.
+
+## 8. Тестовый запуск
+
+Только под тем же `flock`, что и крон (см. раздел 10):
+
+```bash
+cd /opt/imapclient-yandex
+flock /tmp/imapclient-yandex.lock uv run python main.py
+```
+
+## 9. Cron — запуск каждые 30 минут
 
 ```bash
 crontab -e
@@ -93,8 +112,6 @@ crontab -e
 
 > `flock` защищает от пересечения запусков: пока идёт текущий, следующий
 > пропускается (новые письма подхватит следующий запуск по курсору `UID`).
-> Ручные запуски `uv run python main.py` блокировку не используют — не запускайте
-> их параллельно с кроном.
 
 > Важно: не добавляйте `>> cron.log 2>&1`. Приложение само пишет в `cron.log` и ротирует его в полночь. Если оставить shell-редирект, после ротации cron продолжит писать в переименованный старый файл.
 
@@ -104,7 +121,44 @@ crontab -e
 crontab -l
 ```
 
-## 9. Проверка лога
+## 10. Ручной запуск по SSH, не ломая крон
+
+Ключевое: **блокировка живёт в крон-строке, а не в коде.** Голый
+`uv run python main.py` по SSH её не берёт. Два процесса на одном ящике читают
+один курсор, и часть писем может быть пропущена навсегда — поэтому ручной запуск
+всегда через тот же `flock`.
+
+Сначала — свободна ли блокировка (пусто значит «никто не работает»):
+
+```bash
+flock -n /tmp/imapclient-yandex.lock -c 'echo свободно' || echo "идёт прогон"
+pgrep -af "python main.py"
+```
+
+Прогнать вручную, дождавшись очереди (`flock` без `-n` блокируется):
+
+```bash
+cd /opt/imapclient-yandex
+flock /tmp/imapclient-yandex.lock uv run python main.py
+```
+
+Или не ждать, а сразу выйти, если крон уже работает:
+
+```bash
+flock -n /tmp/imapclient-yandex.lock uv run python main.py || echo "прогон уже идёт, пропущено"
+```
+
+Что безопасно делать, пока крон живёт:
+
+| Действие | Можно? |
+| --- | --- |
+| `tail -f cron.log`, `sqlite3`-запросы к базе | Да, только чтение |
+| `git pull` | Да. Уже запущенный процесс держит код в памяти, новый подхватит следующий прогон |
+| `uv sync` | **Нет**, пока идёт прогон: пересоздание `.venv` ломает ленивый импорт. Если иначе никак — берите `flock` |
+| `python main.py` без `flock` | **Нет** |
+| `DELETE FROM data` / удаление `mail.db` | Нет, это потеря данных (см. ниже) |
+
+## 11. Проверка лога
 
 Активный лог — `cron.log`, формат: `YYYY-MM-DD HH:MM:SS,mmm LEVEL message`.
 Ротированные копии за 7 дней — `cron.log.YYYY-MM-DD` (снимаются в полночь).
@@ -125,14 +179,23 @@ tail -n 50 /opt/imapclient-yandex/cron.log
 ls -1 /opt/imapclient-yandex/cron.log*
 ```
 
-## 10. Просмотр SQLite
+## 12. Просмотр SQLite
 
 ```bash
 cd /opt/imapclient-yandex
 uv run python scripts/inspect_db.py
 ```
 
-## 11. Обновление (update)
+`inspect_db.py` выводит всё, что есть, — через месяц это простыня. Точечные
+запросы:
+
+```bash
+sqlite3 data/mail.db "SELECT account, count(*), max(uid) FROM emails GROUP BY account"
+sqlite3 data/mail.db "SELECT datetime(received_at), subject FROM emails ORDER BY id DESC LIMIT 10"
+sqlite3 data/mail.db "SELECT key, value FROM state"   # курсоры по аккаунтам
+```
+
+## 13. Обновление (update)
 
 После изменений в репозитории — как накатить на сервер:
 
@@ -140,24 +203,46 @@ uv run python scripts/inspect_db.py
 ssh adlab@SERVER_IP
 cd /opt/imapclient-yandex
 git pull
-# только если менялись pyproject.toml / uv.lock:
-uv sync
-# если менялась cron-строка (напр. редирект в лог) — пересоздайте задание:
+# только если менялись pyproject.toml / uv.lock — и только когда никто не работает:
+flock /tmp/imapclient-yandex.lock uv sync
+# если менялась cron-строка (flock, путь к uv) — пересоздайте задание:
 crontab -e
 ```
 
-> Каждый прогон cron вызывает `uv run python main.py` заново, поэтому перезапуск сервиса не нужен — изменения подхватятся следующим запуском (в течение 30 мин).
+> Каждый прогон cron вызывает `uv run python main.py` заново, поэтому перезапуск
+> сервиса не нужен — изменения подхватятся следующим запуском (в течение 30 мин).
+> `uv sync` стоит делать под `flock` или при свободной блокировке: он пересоздаёт
+> `.venv` под ногами запущенного процесса.
 
 Проверить, что всё ок:
 
 ```bash
 tail -n 50 /opt/imapclient-yandex/cron.log
+uv run python scripts/check_cursor.py && uv run python scripts/check_text.py
 ```
 
 ### Что проверять после pull
 - **Менялся `main.py`** → если лог пишется самим приложением (через `logging`), shell-редирект `>> cron.log 2>&1` в crontab **должен быть убран** (иначе после ротации cron пишет в переименованный старый файл).
-- **Менялся `.env.example`** → сверьте с вашим `.env` (не коммитится).
-- **Менялся `scripts/`** → перепроверьте `uv run python scripts/inspect_db.py`.
+- **Менялся `.env.example`** → сверьте с вашим `.env` (не коммитится). `ACCOUNTS` обязан быть в одну строку.
+- **Менялся формат `state`** → старый `mail.db` может не подойти; состояние безопасно сбросить, письма при этом останутся, а повторная первичная загрузка их не перезапишет (сработает `UNIQUE(account, uid)`).
+- **Менялся `scripts/`** → перепроверьте `uv run python scripts/check_accounts.py`.
+
+### Сброс состояния
+
+Курсоры лежат в таблице `state` (по две строки на аккаунт). Сброс = повторить
+первичную загрузку (только вчерашние письма):
+
+```bash
+flock -n /tmp/imapclient-yandex.lock uv run python -c "
+import sqlite3
+c = sqlite3.connect('data/mail.db')
+c.execute(\"DELETE FROM state WHERE key LIKE '%anospokkb%'\")
+c.commit()"
+```
+
+Сам `mail.db` не трогайте: это единственное хранилище писем, и никакого
+`VACUUM`-а в проде делать не надо — он переписывает файл целиком, и делать его
+можно только когда никто не работает.
 
 ## Структура на сервере
 
@@ -165,12 +250,16 @@ tail -n 50 /opt/imapclient-yandex/cron.log
 /opt/imapclient-yandex/
 ├── main.py
 ├── scripts/
+│   ├── check_accounts.py   # логин во все аккаунты
+│   ├── check_cursor.py     # логика курсора (офлайн)
+│   ├── check_text.py       # разбор MIME (офлайн)
+│   └── inspect_db.py       # дамп писем
 ├── pyproject.toml
 ├── uv.lock
 ├── .env
 ├── cron.log
 └── data/
-    └── mail.db
+    └── mail.db             # таблицы emails и state
 ```
 
 `.env`, `cron.log` и `data/mail.db` не должны попадать в Git.
