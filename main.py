@@ -1,6 +1,7 @@
-"""Spike v2: fetch Yandex Mail INBOX via IMAP once, persist new mail in SQLite.
+"""Spike v3: fetch Yandex Mail INBOX via IMAP for one or more accounts, persist new mail in SQLite.
 
-Run via cron (or manually). Dedup by IMAP uid keeps re-runs clean.
+Multi-tenant via ACCOUNTS list in .env (JSON). Dedup per account by IMAP uid
+keeps re-runs clean.
 """
 
 import email.header
@@ -11,6 +12,7 @@ from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
 from imapclient import IMAPClient
+from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # readable output on capture
@@ -34,15 +36,21 @@ def _configure_logging() -> None:
     LOG.setLevel(logging.INFO)
 
 
+class Account(BaseModel):
+    """One IMAP account to monitor. `user` doubles as the account key in DB."""
+
+    host: str = "imap.yandex.ru"
+    port: int = 993
+    user: str
+    password: str
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env", case_sensitive=False, extra="ignore"
     )
 
-    imap_host: str = "imap.yandex.ru"
-    imap_port: int = 993
-    imap_user: str
-    imap_password: str
+    accounts: list[Account] = Field(default_factory=list)
 
 
 def _decode(value) -> str:
@@ -70,31 +78,71 @@ def _format_sender(env) -> str:
 
 
 def _init_db() -> sqlite3.Connection:
+    """Create or migrate the emails table.
+
+    v1 (single-tenant): uid was UNIQUE alone.
+    v2 (multi-tenant): composite UNIQUE(account, uid) — uid collisions across
+    accounts are allowed. Legacy rows are backfilled under account='legacy'.
+    """
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
-    conn.execute(
-        """CREATE TABLE IF NOT EXISTS emails (
-            id INTEGER PRIMARY KEY,
-            uid INTEGER NOT NULL UNIQUE,
-            message_id TEXT,
-            sender TEXT,
-            subject TEXT,
-            date TEXT,
-            body TEXT,
-            received_at TEXT NOT NULL
-        )"""
-    )
+    existing = conn.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='emails'"
+    ).fetchone()
+
+    if existing is None:
+        # Fresh DB
+        conn.execute(
+            """CREATE TABLE emails (
+                id INTEGER PRIMARY KEY,
+                account TEXT NOT NULL,
+                uid INTEGER NOT NULL,
+                message_id TEXT,
+                sender TEXT,
+                subject TEXT,
+                date TEXT,
+                body TEXT,
+                received_at TEXT NOT NULL,
+                UNIQUE(account, uid)
+            )"""
+        )
+    elif "account" not in existing[0]:
+        # Legacy single-tenant table — recreate with composite unique,
+        # tagging all existing rows as 'legacy'.
+        conn.executescript(
+            """
+            ALTER TABLE emails RENAME TO _emails_legacy;
+            CREATE TABLE emails (
+                id INTEGER PRIMARY KEY,
+                account TEXT NOT NULL,
+                uid INTEGER NOT NULL,
+                message_id TEXT,
+                sender TEXT,
+                subject TEXT,
+                date TEXT,
+                body TEXT,
+                received_at TEXT NOT NULL,
+                UNIQUE(account, uid)
+            );
+            INSERT INTO emails (id, account, uid, message_id, sender, subject, date, body, received_at)
+            SELECT id, 'legacy', uid, message_id, sender, subject, date, body, received_at
+            FROM _emails_legacy;
+            DROP TABLE _emails_legacy;
+            """
+        )
+    conn.commit()
     return conn
 
 
-def _store(conn: sqlite3.Connection, uid: int, msg: dict) -> bool:
+def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
     """Insert email; return True only when it was actually new."""
     env = msg[b"ENVELOPE"]
     cur = conn.execute(
         "INSERT OR IGNORE INTO emails "
-        "(uid, message_id, sender, subject, date, body, received_at) "
-        "VALUES (?, ?, ?, ?, ?, ?, datetime('now'))",
+        "(account, uid, message_id, sender, subject, date, body, received_at) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
         (
+            account,
             uid,
             _decode(env.message_id),
             _format_sender(env),
@@ -106,11 +154,14 @@ def _store(conn: sqlite3.Connection, uid: int, msg: dict) -> bool:
     return cur.rowcount == 1
 
 
-def _stored_uids(conn: sqlite3.Connection) -> set:
-    return {r[0] for r in conn.execute("SELECT uid FROM emails")}
+def _stored_uids(conn: sqlite3.Connection, account: str) -> set:
+    return {
+        r[0]
+        for r in conn.execute("SELECT uid FROM emails WHERE account = ?", (account,))
+    }
 
 
-def fetch_new_emails(client: IMAPClient, conn: sqlite3.Connection) -> None:
+def fetch_new_emails(client: IMAPClient, account: str, conn: sqlite3.Connection) -> None:
     client.select_folder("INBOX")
     # Fetch only uids first (cheap), then pull full data for those not
     # already stored. Keeps "mirror whole INBOX" invariant without
@@ -119,13 +170,13 @@ def fetch_new_emails(client: IMAPClient, conn: sqlite3.Connection) -> None:
     if not uids:
         LOG.info("No emails.")
         return
-    missing = [u for u in uids if u not in _stored_uids(conn)]
+    missing = [u for u in uids if u not in _stored_uids(conn, account)]
     if not missing:
         LOG.info("No new emails.")
         return
     data = client.fetch(missing, ["ENVELOPE", "BODY[TEXT]"])
     for uid, msg in data.items():
-        if not _store(conn, uid, msg):
+        if not _store(conn, account, uid, msg):
             continue  # already processed in a previous run
         env = msg[b"ENVELOPE"]
         LOG.info(f"From: {_format_sender(env)}")
@@ -136,23 +187,30 @@ def fetch_new_emails(client: IMAPClient, conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
-def run_once(settings: Settings, conn: sqlite3.Connection) -> None:
+def run_once(account: Account, conn: sqlite3.Connection) -> None:
     # Connection per run; context manager logs out and closes on exit.
-    with IMAPClient(settings.imap_host, port=settings.imap_port, ssl=True) as client:
-        client.login(settings.imap_user, settings.imap_password)
-        fetch_new_emails(client, conn)
+    with IMAPClient(account.host, port=account.port, ssl=True) as client:
+        client.login(account.user, account.password)
+        fetch_new_emails(client, account.user, conn)
 
 
 def main() -> None:
     _configure_logging()
     settings = Settings()
+    if not settings.accounts:
+        LOG.error(
+            "No accounts configured. Set ACCOUNTS=[{...}] in .env (JSON list)."
+        )
+        sys.exit(1)
     conn = _init_db()
-    LOG.info("Connect -> authenticate -> INBOX -> find new emails -> persist -> print")
     try:
-        run_once(settings, conn)
-    except Exception:
-        LOG.exception("run failed")
-        raise
+        for account in settings.accounts:
+            LOG.info(f"=== account: {account.user} ({account.host}:{account.port}) ===")
+            try:
+                run_once(account, conn)
+            except Exception:
+                # Don't let one bad mailbox kill the rest of the run.
+                LOG.exception(f"account {account.user} failed; continuing")
     finally:
         conn.close()
 
