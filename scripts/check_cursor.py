@@ -38,7 +38,7 @@ class FakeClient:
                 b"ENVELOPE": SimpleNamespace(
                     message_id=f"<{uid}@t>", from_=[], subject=f"s{uid}", date="d"
                 ),
-                b"BODY[TEXT]": b"body",
+                b"BODY[TEXT]<0>": b"body",
             }
             for uid in uids
         }

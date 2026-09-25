@@ -25,6 +25,11 @@ LOG = logging.getLogger("imapclient-yandex")
 # email.header.decode_header is O(n^2): one junky multi-MB header (a 23 MB body in
 # this mailbox) is enough to hang a run for minutes. Headers get truncated.
 HEADER_MAX = 1000
+# Yandex answers BODY[TEXT] with the WHOLE message, PDF attachments included
+# (23 MB where the text is 97 lines), so ask for a prefix: BODY[TEXT]<0.65536>
+# returns 64 KB in 0.7 s. For small mail the server returns the mail in full.
+BODY_PREFIX = 65536
+BODY_SPEC = f"BODY[TEXT]<0.{BODY_PREFIX}>"
 
 
 def _configure_logging() -> None:
@@ -77,6 +82,15 @@ def _text(value) -> str:
     if not value:
         return ""
     return value.decode("utf-8", errors="replace") if isinstance(value, bytes) else value
+
+
+def _body(msg: dict) -> bytes:
+    """Body bytes of a fetch response.
+
+    Yandex answers the key as `BODY[TEXT]<0>` whatever partial spec was asked for,
+    so take the one bytes-valued entry instead of looking BODY_SPEC up.
+    """
+    return next((v for v in msg.values() if isinstance(v, bytes)), b"")
 
 
 def _format_sender(env) -> str:
@@ -177,7 +191,7 @@ def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
             _format_sender(env),
             _decode(env.subject),
             str(env.date) if env.date else "",
-            _text(msg.get(b"BODY[TEXT]")),
+            _text(_body(msg)),
         ),
     )
     return cur.rowcount == 1
@@ -186,15 +200,19 @@ def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
 def _ingest(
     conn: sqlite3.Connection, account: str, client: IMAPClient, uids: list[int]
 ) -> None:
-    """Store the given uids and log whatever is new. No commit — caller decides."""
-    for uid, msg in client.fetch(uids, ["ENVELOPE", "BODY[TEXT]"]).items():
+    """Store the given uids and log whatever is new. No commit — caller decides.
+
+    Bodies are a bounded prefix of the message, not a parsed body: attachments are
+    never downloaded and a 23 MB mail costs the same as a small one.
+    """
+    for uid, msg in client.fetch(uids, ["ENVELOPE", BODY_SPEC]).items():
         if not _store(conn, account, uid, msg):
             continue  # already processed in a previous run
         env = msg[b"ENVELOPE"]
         LOG.info(f"From: {_format_sender(env)}")
         LOG.info(f"Subject: {_decode(env.subject)}")
         LOG.info(f"Date: {env.date}")
-        LOG.info(f"Body: {_text(msg.get(b'BODY[TEXT]'))[:500]}")
+        LOG.info(f"Body: {_text(_body(msg))[:500]}")
         LOG.info("-" * 40)
 
 

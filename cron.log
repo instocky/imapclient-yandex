@@ -842,3 +842,557 @@ vdGBINC/0YDQvtC60LDRh9Cw0YLRjNGB0Y8g0LIg0JjQoiDQvdCwIFRydWUgVGVjaCBDaGFtcAoK
 2026-09-25 22:09:30,083 INFO no new emails (uid > 33)
 2026-09-25 22:09:30,411 INFO === account: anospokkb@yandex.ru (imap.yandex.ru:993) ===
 2026-09-25 22:09:36,649 INFO no new emails (uid > 29949)
+2026-09-25 22:15:01,841 INFO === account: ai-connect@yandex.com (imap.yandex.ru:993) ===
+2026-09-25 22:15:07,678 INFO no new emails (uid > 33)
+2026-09-25 22:15:08,028 INFO === account: anospokkb@yandex.ru (imap.yandex.ru:993) ===
+2026-09-25 22:15:12,041 INFO first run (uidvalidity=1392655987), seeding with SINCE yesterday
+2026-09-25 22:15:17,966 INFO From: Александр Неугодников <b'aneugodnikov'@b'center-dpo.ru'>
+2026-09-25 22:15:17,966 INFO Subject: МЦДПО бланк заявки
+2026-09-25 22:15:17,967 INFO Date: 2026-09-24 08:51:54
+2026-09-25 22:15:17,967 INFO Body: ---------mix9676ab4ba7
+Content-Type: multipart/alternative; boundary="-------alt4766ab4ba7"
+
+---------alt4766ab4ba7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Добрый день!
+
+--
+С уважением,  Неугодников Александр Анатольевич  Специалист по работе с клиентами  +7 499 350 44 38:
+tel:+74993504438
+ доб 127  www.center-dpo.ru:
+http://portal.center-dpo.ru/pub/mail/click.php?tag=crm.eyJ1cm4iOiI4NTcyODItUVhDQThYIn0%3D&url=https%3A%2F%2Fwww.center-dpo.ru%2F&sign=
+2026-09-25 22:15:17,970 INFO ----------------------------------------
+2026-09-25 22:15:17,971 INFO From: Пилипенко Яна Юрьевна <b'pilipenko_yy'@b'znanium.ru'>
+2026-09-25 22:15:17,971 INFO Subject: Re: ЭБС ЗНАНИУМ Договора ФПУ
+2026-09-25 22:15:17,971 INFO Date: 2026-09-24 09:47:05
+2026-09-25 22:15:17,971 INFO Body: This is a multi-part message in MIME format.
+--------------K4l8orys3D11CAJLM0THkbJG
+Content-Type: multipart/alternative;
+ boundary="------------iLtw1xtWzTWegu5ByWh57ac1"
+
+--------------iLtw1xtWzTWegu5ByWh57ac1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Здравствуйте.
+
+Отправляем вам актуальный договор, подписан с нашей стороны. Просим 
+подписать этот скан, тот что вы присылали, наша бухгалтерия  не принимает.
+
+Оригиналы отправим вам доста
+2026-09-25 22:15:17,971 INFO ----------------------------------------
+2026-09-25 22:15:17,972 INFO From: Информио <b'mail'@b'edutic.ru'>
+2026-09-25 22:15:17,973 INFO Subject: Рассылка новостей информационного портала Информио для профессиональных образовательных организаций
+2026-09-25 22:15:17,973 INFO Date: 2026-09-24 07:59:45
+2026-09-25 22:15:17,973 INFO Body: This is a multi-part message in MIME format.
+Your email application may not support this format.
+
+--B_ALT_6ab4cae45f978
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Рассылка новостей информационного
+портала «Информио» 
+ 
+ 
+ 23 сентября
+ 
+
+ 
+Новые документы
+ 
+ 
+О сроках подачи заявления на
+государственную аккредитацию новой
+образовательной программы
+ 
+ 
+О составе управляющего совета
+профессиональной образовательной
+организации
+ 
+ 
+Об отчетно
+2026-09-25 22:15:17,973 INFO ----------------------------------------
+2026-09-25 22:15:17,974 INFO From: Издательство «КНОРУС» <b'book'@b'knorus.ru'>
+2026-09-25 22:15:17,974 INFO Subject: ✅ Новые книги в ЭБС BOOK.RU для среднего профессионального образования
+2026-09-25 22:15:17,974 INFO Date: 2026-09-24 11:01:09
+2026-09-25 22:15:17,974 INFO Body: --MXg5ZU9DLXBGWkpyTS1QMg==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_323366_119654480.1790236868844"
+
+------=_Part_323366_119654480.1790236868844
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+CgrigIoKCtCj0LLQsNC20LDQtdC80YvQtSDQv9Cw0YDRgtC90LXRgNGLIQoK0JrQvtC70LvQtdC6
+0YbQuNGPINC70LjRgtC10YDQsNGC0YPRgNGLIChodHRwczovL2Jvb2sucnUvY2F0LzQ5OSnQsiDR
+jdC70LXQutGC0YDQvtC90L3Qvi3QsdC40LHQu9C40L7RgtC10YfQvdC+0Lkg0YHQuNGB0YLQtdC8
+0LUgQk9PSy5SVSAoaHR
+2026-09-25 22:15:17,975 INFO ----------------------------------------
+2026-09-25 22:15:17,975 INFO From: Добро.рф <b'noreply'@b'dobro.ru'>
+2026-09-25 22:15:17,975 INFO Subject: 🩺 Ваш опыт важен
+2026-09-25 22:15:17,975 INFO Date: 2026-09-24 12:39:08
+2026-09-25 22:15:17,976 INFO Body: 
+
+
+PCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMDEgVHJhbnNpdGlvbmFs
+Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL2h0bWw0L2xvb3NlLmR0ZCI+CjxodG1sPjxoZWFk
+PjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFy
+c2V0PXV0Zi04Ij4KICAgIAogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRo
+PWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xIj4KICAgIDx0aXRsZT4gPC90aXRsZT4KICAg
+IDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CgkJaHRtbCB7CgkJCS13ZWJraXQtdGV4dC1zaXplLWFk
+anVzdDogbm9uZTsKCQkJLW1zLX
+2026-09-25 22:15:17,976 INFO ----------------------------------------
+2026-09-25 22:15:17,976 INFO From: Первый Бит <b'hello'@b'1cbit.ru'>
+2026-09-25 22:15:17,977 INFO Subject: Изменения в октябре, Подготовка к отчетности, Управленческий учет
+2026-09-25 22:15:17,977 INFO Date: 2026-09-24 13:24:07
+2026-09-25 22:15:17,977 INFO Body: --=_3307a5be9fffbf83feee3546163ad130
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+=E2=A0=80=20
+=D0=B8 =D0=B4=D1=80=D1=83=D0=B3=D0=B8=D0=B5 =D0=BF=D0=BE=D0=BB=D0=B5=D0=B7=
+=D0=BD=D1=8B=D0=B5 =D0=BC=D0=B0=D1=82=D0=B5=D1=80=D0=B8=D0=B0=D0=BB=D1=8B =
+=D0=BE=D1=82 =D1=8D=D0=BA=D1=81=D0=BF=D0=B5=D1=80=D1=82=D0=BE=D0=B2=C2=A0 =
+=E2=80=8C=C2=A0 =E2=80=8C=C2=A0 =E2=80=8C=C2=A0 =E2=80=8C=C2=A0 =E2=80=8C=
+=C2=A0 =E2=80=8C=C2=A0 =E2=80=8C=E2=80=8C=C2=A0 =E2=8
+2026-09-25 22:15:17,977 INFO ----------------------------------------
+2026-09-25 22:15:17,978 INFO From: Багровская Тамара Евгеньевна <b't_bagrovskaya'@b'volganet.ru'>
+2026-09-25 22:15:17,978 INFO Subject: Перечень всероссийских мероприятий Движение Первых
+2026-09-25 22:15:17,978 INFO Date: 2026-09-24 16:30:02
+2026-09-25 22:15:17,979 INFO Body: 
+--_===25065962====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+______
+С уважением,
+Багровская Тамара Евгеньевна,
+(8442) 30-86-41
+
+--_===25065962====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?NzkwZmIwOWRfNzU5?=
+ =?utf-8?B?ZF80OTM1X2I4ZGZfNjlkMDFjYzQ2MDlkICgzKS5wZGY=?="
+Content-Type: application/pdf; name="=?utf-8?B?NzkwZmIwOWRfNzU5ZF80?=
+ =?utf-8?B?OTM1X2I4ZGZfNjlkMDFjYzQ2MDlkICgzKS5wZG
+2026-09-25 22:15:17,979 INFO ----------------------------------------
+2026-09-25 22:15:17,979 INFO From: Багровская Тамара Евгеньевна <b't_bagrovskaya'@b'volganet.ru'>
+2026-09-25 22:15:17,979 INFO Subject: О МЕЖДУНАРОДНЫХ КОНКУРСАХ
+2026-09-25 22:15:17,980 INFO Date: 2026-09-24 16:39:21
+2026-09-25 22:15:17,980 INFO Body: 
+--_===25066432====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+______
+С уважением,
+Багровская Тамара Евгеньевна,
+(8442) 30-86-41
+
+--_===25066432====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0L4g0L/RgNC+0LI=?=
+ =?utf-8?B?0LXQtNC10L3QuNC4IElYINCc0LXQttC00YPQvdCw0YDQvtC00L3QvtCz?=
+ =?utf-8?B?0L4g0LrQvtC90LrRg9GA0YHQsCDQoNCw0YHRgdC60LDQttC4INC80Lg=?=
+ =?utf-8?B?0YDRgyDQviDRgdCy0L7QtdC5INC
+2026-09-25 22:15:17,980 INFO ----------------------------------------
+2026-09-25 22:15:17,980 INFO From: ГорСпортКомитет <b'gorsportkam'@b'yandex.ru'>
+2026-09-25 22:15:17,981 INFO Subject: Руководителю- Соревнования среди допризывной молодежи
+2026-09-25 22:15:17,981 INFO Date: 2026-09-24 17:08:17
+2026-09-25 22:15:17,981 INFO Body: 
+------==--bound.147307.85a08b58-d0a8-4d59-9813-46a95aa01980
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html; charset=utf-8
+
+<div> </div><div> </div><div>-- </div><div>С уважением, </div><div>Комитет по физической культуре и спорту.</div><div> </div>
+------==--bound.147307.85a08b58-d0a8-4d59-9813-46a95aa01980
+Content-Disposition: attachment;
+	filename="=?UTF-8?B?0KHRgdGD0LfRiywg0LLRg9C30YsuUERG?="
+Content-Transfer-Encoding: base64
+Content-Type: application/pdf;
+	name="=?UTF-8?
+2026-09-25 22:15:17,981 INFO ----------------------------------------
+2026-09-25 22:15:17,982 INFO From: Багровская Тамара Евгеньевна <b't_bagrovskaya'@b'volganet.ru'>
+2026-09-25 22:15:17,982 INFO Subject: федеральный проект Во имя героев
+2026-09-25 22:15:17,982 INFO Date: 2026-09-24 17:20:56
+2026-09-25 22:15:17,982 INFO Body: 
+--_===25063867====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+______
+С уважением,
+Багровская Тамара Евгеньевна,
+(8442) 30-86-41
+
+--_===25063867====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?UHJpbG96aGllbmlp?=
+ =?utf-8?B?ZV8xX19JbmZvcm1hdHNpb25ub2llX3Bpc19tby5wZGY=?="
+Content-Type: application/pdf; name="=?utf-8?B?UHJpbG96aGllbmlpZV8x?=
+ =?utf-8?B?X19JbmZvcm1hdHNpb25ub2llX3Bpc19tby5wZG
+2026-09-25 22:15:17,983 INFO ----------------------------------------
+2026-09-25 22:15:17,983 INFO From: Багровская Тамара Евгеньевна <b't_bagrovskaya'@b'volganet.ru'>
+2026-09-25 22:15:17,983 INFO Subject: план мероприятий, приуроченных ко дням воинской славы
+2026-09-25 22:15:17,983 INFO Date: 2026-09-24 17:40:34
+2026-09-25 22:15:17,984 INFO Body: 
+--_===25062184====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+______
+С уважением,
+Багровская Тамара Евгеньевна,
+(8442) 30-86-41
+
+--_===25062184====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0L4g0L3QsNC/0YA=?=
+ =?utf-8?B?0LDQstC70LXQvdC40Lgg0L/Qu9Cw0L3QsCDQvtGB0L3QvtCy0L3Ri9GF?=
+ =?utf-8?B?INC80LXRgNC+0L/RgNC40Y/RgtC40LkucGRm?="
+Content-Type: application/pdf; name="=?utf-8?B?0L4g0L3QsN
+2026-09-25 22:15:17,984 INFO ----------------------------------------
+2026-09-25 22:15:17,984 INFO From: Cветлана Ефимова <b'cvetlanaefimova6'@b'gmail.com'>
+2026-09-25 22:15:17,985 INFO Subject: ПРИЁМНАЯ КОМИССИЯ
+2026-09-25 22:15:17,985 INFO Date: 2026-09-25 08:32:39
+2026-09-25 22:15:17,985 INFO Body: --000000000000290a40065c480cb5
+Content-Type: multipart/alternative; boundary="000000000000290a3d065c480cb3"
+
+--000000000000290a3d065c480cb3
+Content-Type: text/plain; charset="UTF-8"
+
+
+
+--000000000000290a3d065c480cb3
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr"><br></div>
+
+--000000000000290a3d065c480cb3--
+--000000000000290a40065c480cb5
+Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document; 
+	name="=?UTF-8?B?0J/QoNC40ZHQvNC90LDRjyAg0JrQnt
+2026-09-25 22:15:17,985 INFO ----------------------------------------
+2026-09-25 22:15:17,986 INFO From: Cветлана Ефимова <b'cvetlanaefimova6'@b'gmail.com'>
+2026-09-25 22:15:17,986 INFO Subject: ответ на запрос по Осокиной
+2026-09-25 22:15:17,986 INFO Date: 2026-09-25 09:06:31
+2026-09-25 22:15:17,986 INFO Body: --0000000000004070cb065c48855e
+Content-Type: multipart/alternative; boundary="0000000000004070c7065c48855c"
+
+--0000000000004070c7065c48855c
+Content-Type: text/plain; charset="UTF-8"
+
+
+
+--0000000000004070c7065c48855c
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr"><br></div>
+
+--0000000000004070c7065c48855c--
+--0000000000004070cb065c48855e
+Content-Type: application/pdf; name="=?UTF-8?B?0LfQsNC/0YDQvtGBINCe0KHQntCa0JjQndCQLg==?=
+	=?UTF-8?B?cGRm?="
+Content-Disposition: atta
+2026-09-25 22:15:17,987 INFO ----------------------------------------
+2026-09-25 22:15:17,988 INFO From: Столба Наталья <b'stolba.nat'@b'yandex.ru'>
+2026-09-25 22:15:17,988 INFO Subject: Тарификация очная форма
+2026-09-25 22:15:17,988 INFO Date: 2026-09-25 09:28:03
+2026-09-25 22:15:17,988 INFO Body: 
+------==--bound.17794.9957b3b7-0046-43b3-a735-71e0b54f3529
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html; charset=utf-8
+
+<div> </div><div>Доброе утро!</div><div>Вакансии очки редактирую. Вышлю в течение получаса.</div><div>-- </div><div>С уважением,</div><div>Наталья Александровна Столба</div><div> </div>
+------==--bound.17794.9957b3b7-0046-43b3-a735-71e0b54f3529
+Content-Disposition: attachment;
+	filename="=?UTF-8?B?0KLQsNGA0LjRhNC40LrQsNGG0LjRjyAyMDI2XzIwMjcg0L7Rh9C90LDRjyDRh
+2026-09-25 22:15:18,086 INFO ----------------------------------------
+2026-09-25 22:15:18,086 INFO From: Волкова Ирина Васильевна <b'i_volkova'@b'volganet.ru'>
+2026-09-25 22:15:18,087 INFO Subject: О Всероссийском проекте "Сетевичок"
+2026-09-25 22:15:18,087 INFO Date: 2026-09-25 09:32:35
+2026-09-25 22:15:18,087 INFO Body: 
+--_===25073371====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+С уважением, Волкова Ирина Васильевна, телефон: 93-03-18
+
+--_===25073371====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0J/QuNGB0YzQvNC+?=
+ =?utf-8?B?INCe0LHQu9C60L7QvNC+0LHRgNCw0LfQvtCy0LDQvdC40Y8g0JgtMDZf?=
+ =?utf-8?B?MTAzMDgg0L7RgiAyNC4wOS4yMDI2LnBkZg==?="
+Content-Type: application/pdf; name="=?utf-8?B?0J/QuNGB0YzQvNC+INCe?=
+2026-09-25 22:15:18,087 INFO ----------------------------------------
+2026-09-25 22:15:18,088 INFO From: Волкова Ирина Васильевна <b'i_volkova'@b'volganet.ru'>
+2026-09-25 22:15:18,088 INFO Subject: О проведении региональной конференции
+2026-09-25 22:15:18,089 INFO Date: 2026-09-25 09:38:18
+2026-09-25 22:15:18,089 INFO Body: 
+--_===25073789====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+С уважением, Волкова Ирина Васильевна, телефон: 93-03-18
+
+--_===25073789====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0J/QuNGB0YzQvNC+?=
+ =?utf-8?B?INCe0LHQu9C60L7QvNC+0LHRgNCw0LfQvtCy0LDQvdC40Y8g0JgtMDZf?=
+ =?utf-8?B?MTAzMDkg0L7RgiAyNC4wOS4yMDI2LnBkZg==?="
+Content-Type: application/pdf; name="=?utf-8?B?0J/QuNGB0YzQvNC+INCe?=
+2026-09-25 22:15:18,089 INFO ----------------------------------------
+2026-09-25 22:15:18,090 INFO From: Информио <b'mail'@b'edutic.ru'>
+2026-09-25 22:15:18,091 INFO Subject: Рассылка новостей информационного портала Информио для профессиональных образовательных организаций
+2026-09-25 22:15:18,091 INFO Date: 2026-09-25 07:59:37
+2026-09-25 22:15:18,091 INFO Body: This is a multi-part message in MIME format.
+Your email application may not support this format.
+
+--B_ALT_6ab61bf064643
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+Рассылка новостей информационного
+портала «Информио» 
+ 
+ 
+ 24 сентября
+ 
+
+ 
+Новые документы
+ 
+ 
+О выдаче дубликата диплома лицу,
+изменившему фамилию
+ 
+ 
+О формулировке приказа об отчислении
+обучающегося, не заключившего целевой
+договор в рамках квоты
+ 
+ 
+О доступе юрисконсульта к
+2026-09-25 22:15:18,091 INFO ----------------------------------------
+2026-09-25 22:15:18,092 INFO From: Столба Наталья <b'stolba.nat'@b'yandex.ru'>
+2026-09-25 22:15:18,092 INFO Subject: вакансии очка
+2026-09-25 22:15:18,092 INFO Date: 2026-09-25 10:17:45
+2026-09-25 22:15:18,093 INFO Body: 
+------==--bound.207997.4eff6933-dccf-40dc-b7de-06f016062501
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html; charset=utf-8
+
+<div> </div><div> </div><div>-- </div><div>С уважением,</div><div>Наталья Александровна Столба</div><div> </div>
+------==--bound.207997.4eff6933-dccf-40dc-b7de-06f016062501
+Content-Disposition: attachment;
+	filename="=?UTF-8?B?0LLQsNC60LDQvdGB0LjQuCAyMDI2INC+0YfQvdCw0Y8g0YTQvtGA0LzQsC54bHN4?="
+Content-Transfer-Encoding: base64
+Content-Type: application/vn
+2026-09-25 22:15:18,093 INFO ----------------------------------------
+2026-09-25 22:15:18,093 INFO From: Волкова Ирина Васильевна <b'i_volkova'@b'volganet.ru'>
+2026-09-25 22:15:18,094 INFO Subject: О запуске осенней сессии проектов Банка России
+2026-09-25 22:15:18,094 INFO Date: 2026-09-25 10:21:13
+2026-09-25 22:15:18,094 INFO Body: 
+--_===25076286====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+С уважением, Волкова Ирина Васильевна, телефон: 93-03-18
+
+--_===25076286====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0J/QuNGB0YzQvNC+?=
+ =?utf-8?B?INCe0LHQu9C60L7QvNC+0LHRgNCw0LfQvtCy0LDQvdC40Y8g0JgtMDZf?=
+ =?utf-8?B?MTAzMTAg0L7RgiAyNC4wOS4yMDI2LnBkZg==?="
+Content-Type: application/pdf; name="=?utf-8?B?0J/QuNGB0YzQvNC+INCe?=
+2026-09-25 22:15:18,094 INFO ----------------------------------------
+2026-09-25 22:15:18,095 INFO From: Агаева И.А. <b'agaevaia'@b'34.sfr.gov.ru'>
+2026-09-25 22:15:18,095 INFO Subject: Добрый день. Запрос СФР по оплате материнским капиталом
+2026-09-25 22:15:18,095 INFO Date: 2026-09-25 10:50:58
+2026-09-25 22:15:18,096 INFO Body: ------2753aEeC15Ad7969E890B0963b2764A2-KGjNMlKW2qCJoFcq-1790322658
+Content-Type: multipart/alternative;
+	boundary="--ALT--2753aEeC15Ad7969E890B0963b2764A21790322658"
+
+----ALT--2753aEeC15Ad7969E890B0963b2764A21790322658
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+CsKgCsKgCsKgIMKg0KEg0YPQstCw0LbQtdC90LjQtdC8LArCoCDCoNCz0LvQsNCy0L3Ri9C5INGB
+0L/QtdGG0LjQsNC70LjRgdGCLdGN0LrRgdC/0LXRgNGCINCe0KPQnCjQoSnQmiDihJY0CsKgIMKg
+0J7QodCk0KAg0L/QviDQktC+0LvQs9C+0LPRgNCw0L
+2026-09-25 22:15:18,096 INFO ----------------------------------------
+2026-09-25 22:15:18,096 INFO From: Пилипенко Яна Юрьевна <b'pilipenko_yy'@b'znanium.ru'>
+2026-09-25 22:15:18,096 INFO Subject: Re: ЭБС ЗНАНИУМ Договора ФПУ
+2026-09-25 22:15:18,097 INFO Date: 2026-09-25 10:52:13
+2026-09-25 22:15:18,097 INFO Body: This is a multi-part message in MIME format.
+--------------DJC4H08FZeXdc00WrQmuzFwL
+Content-Type: multipart/alternative;
+ boundary="------------zDbW0TJG46QiKI0IyhUWvmwk"
+
+--------------zDbW0TJG46QiKI0IyhUWvmwk
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Здравствуйте.
+
+Подписку на коллекции ФПУ "Просвещение" открыли, отправляем вам АКТ и 
+Счет по ЛД 697.
+
+
+24.09.2026 12:54, АНПОО Камышинский колледж бизнеса пишет:
+> ----------------
+> К
+2026-09-25 22:15:18,097 INFO ----------------------------------------
+2026-09-25 22:15:18,097 INFO From: b'webmaster'@b'cryptopro.ru'
+2026-09-25 22:15:18,097 INFO Subject: Изменение учетной записи пользователя anospokkb на сайте КриптоПро
+2026-09-25 22:15:18,098 INFO Date: 2026-09-25 13:11:35
+2026-09-25 22:15:18,098 INFO Body: anospokkb,
+
+Вы послали запрос на восстановление  
+пароля к вашей учетной записи на сайте  
+КриптоПро.
+
+Вы также сможете войти на сайт cryptopro.ru,  
+нажав на следующую ссылку или скопировав  
+её в адресную строку вашего браузера:
+
+https://cryptopro.ru/user/reset/2265627/1790331095/9mh924L_HRi4rnmbXdnhDxY2htc
+
+Это одноразовый вход, воспользоваться им  
+можно лишь однажды. Срок его действия  
+истекает через день (но ничего не  
+случится, если вы им не воспользуетесь).
+
+После вход
+2026-09-25 22:15:18,098 INFO ----------------------------------------
+2026-09-25 22:15:18,098 INFO From: Планета Молодых Камышин <b'planeta_molodih'@b'mail.ru'>
+2026-09-25 22:15:18,099 INFO Subject: игра-дискуссия "С ненавистью и и ксенофобией нам не по пути!"
+2026-09-25 22:15:18,099 INFO Date: 2026-09-25 13:22:25
+2026-09-25 22:15:18,099 INFO Body: ------3d404845e70F25201bAC2b36B4a2DfAa-RrE5k21lkjMNSLOz-1790331745
+Content-Type: multipart/alternative;
+	boundary="--ALT--3d404845e70F25201bAC2b36B4a2DfAa1790331745"
+
+
+----ALT--3d404845e70F25201bAC2b36B4a2DfAa1790331745
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+0KEg0YPQstCw0LbQtdC90LjQtdC8LArQnNCR0KMgItCT0JrQptCh0J7QnCAi0J/Qu9Cw0L3QtdGC
+0LAg0LzQvtC70L7QtNGL0YUiCgo4KDg0NDU3KTItMDItOTAKOCg4NDQ1NykyLTcwLTg0CtCzLiDQ
+mtCw0LzRi9GI0LjQvSDQktC+0LvQs9C+0LPRgNCw
+2026-09-25 22:15:18,099 INFO ----------------------------------------
+2026-09-25 22:15:18,100 INFO From: Добро.рф <b'noreply'@b'dobro.ru'>
+2026-09-25 22:15:18,100 INFO Subject: Спасибо, что #МЫВМЕСТЕ
+2026-09-25 22:15:18,100 INFO Date: 2026-09-25 14:23:12
+2026-09-25 22:15:18,104 INFO Body: 
+
+
+PCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDQuMDEgVHJhbnNpdGlvbmFs
+Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL2h0bWw0L2xvb3NlLmR0ZCI+CjxodG1sPjxoZWFk
+PjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFy
+c2V0PXV0Zi04Ij4KICAgIAogICAgPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRo
+PWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xIj4KICAgIDx0aXRsZT4gPC90aXRsZT4KICAg
+IDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CgkJaHRtbCB7CgkJCS13ZWJraXQtdGV4dC1zaXplLWFk
+anVzdDogbm9uZTsKCQkJLW1zLX
+2026-09-25 22:15:18,105 INFO ----------------------------------------
+2026-09-25 22:15:18,106 INFO From: Волкова Ирина Васильевна <b'i_volkova'@b'volganet.ru'>
+2026-09-25 22:15:18,106 INFO Subject: О проведении совещания с Рособрнадзором
+2026-09-25 22:15:18,106 INFO Date: 2026-09-25 14:29:05
+2026-09-25 22:15:18,106 INFO Body: 
+--_===25086262====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+С уважением, Волкова Ирина Васильевна, телефон: 93-03-18
+
+--_===25086262====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0J/QuNGB0YzQvNC+?=
+ =?utf-8?B?INCe0LHQu9C60L7QvNC+0LHRgNCw0LfQvtCy0LDQvdC40Y8g0JgtMDZf?=
+ =?utf-8?B?MTAzNDgg0L4g0JLQmtChLnBkZg==?="
+Content-Type: application/pdf; name="=?utf-8?B?0J/QuNGB0YzQvNC+INCe?=
+ =?utf
+2026-09-25 22:15:18,106 INFO ----------------------------------------
+2026-09-25 22:15:18,107 INFO From: Карпова Наталия Александровна <b'na_karpova'@b'volganet.ru'>
+2026-09-25 22:15:18,107 INFO Subject: Запрос информации_иностранцы
+2026-09-25 22:15:18,108 INFO Date: 2026-09-25 14:41:04
+2026-09-25 22:15:18,108 INFO Body: 
+--_===25087080====be1.volganet.ru===_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+
+С уважением,
+Карпова Н.А.,
+старший консультант отдела среднего профессионального образования и среднего 
+профессионального обучения комитета образования и науки Волгоградской 
+области
+т. 30-86-85
+
+
+
+--_===25087080====be1.volganet.ru===_
+Content-Disposition: attachment; filename="=?utf-8?B?0JfQsNC/0YDQvtGB?=
+ =?utf-8?B?INCc0JLQlC5QREY=?="
+Content-Type
+2026-09-25 22:15:18,109 INFO ----------------------------------------
+2026-09-25 22:15:18,110 INFO From: Яндекс ID  <b'noreply'@b'id.yandex.ru'>
+2026-09-25 22:15:18,110 INFO Subject: Вы создали пароль для приложения в аккаунте anospokkb
+2026-09-25 22:15:18,113 INFO Date: 2026-09-25 14:48:35
+2026-09-25 22:15:18,115 INFO Body: PCFkb2N0eXBlIGh0bWw+CjxodG1sIGxhbmc9InJ1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+MTk5OS94aHRtbCIgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5z
+Om89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSI+CiAgPGhlYWQ+CiAg
+ICA8dGl0bGU+CiAgICAgIFlhbmRleCBJRAogICAgPC90aXRsZT4KICAgIDwhLS1baWYgIW1zb10+
+PCEtLT4KICAgIDxtZXRhIGh0dHAtZXF1aXY9IlgtVUEtQ29tcGF0aWJsZSIgY29udGVudD0iSUU9
+ZWRnZSI+CiAgICA8IS0tPCFbZW5kaWZdLS0+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50
+LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRt
+2026-09-25 22:15:18,115 INFO ----------------------------------------
+2026-09-25 22:15:18,116 INFO From: АНПОО Камышинский колледж бизнеса <b'anospokkb'@b'yandex.ru'>
+2026-09-25 22:15:18,116 INFO Subject: 
+2026-09-25 22:15:18,116 INFO Date: 2026-09-25 14:57:39
+2026-09-25 22:15:18,116 INFO Body: https://telemost.yandex.ru/j/35011842379736<br /><br />-- <br />Отправлено из мобильного приложения Яндекс Почты
+
+2026-09-25 22:15:18,116 INFO ----------------------------------------
+2026-09-25 22:15:18,117 INFO From: Палласовский сельскохозяйственный техникум <b'pu56_pal'@b'mail.ru'>
+2026-09-25 22:15:18,117 INFO Subject: Добрый день! Предлагаем принять участие в Конкурсе профессионального мастерства "Арт-класс" (с международным участием) среди учащихся школ и обучающихся профессиональных образовательных организаций
+2026-09-25 22:15:18,117 INFO Date: 2026-09-25 15:33:02
+2026-09-25 22:15:18,118 INFO Body: ------4a6DcFb9e2145aB22C2c905351c3993F-fn9MPakQyWBBdTXa-1790339582
+Content-Type: multipart/alternative;
+	boundary="--ALT--4a6DcFb9e2145aB22C2c905351c3993F1790339582"
+
+
+----ALT--4a6DcFb9e2145aB22C2c905351c3993F1790339582
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+0KEg0YPQstCw0LbQtdC90LjQtdC8LArQk9CR0J/QntCjICLQn9Cw0LvQu9Cw0YHQvtCy0YHQutC4
+0Lkg0YHQtdC70YzRgdC60L7RhdC+0LfRj9C50YHRgtCy0LXQvdC90YvQuSDRgtC10YXQvdC40LrR
+g9C8IgrQmtC+0L3RgtCw0LrRgtC90YvQtSDRgtC1
+2026-09-25 22:15:18,118 INFO ----------------------------------------
+2026-09-25 22:15:18,119 INFO From: Код будущего, МФТИ <b'futurecode'@b'it-edu.com'>
+2026-09-25 22:15:18,120 INFO Subject: 🔥🤖 Не упустите свой шанс прокачаться в ИТ на True Tech Champ! 
+2026-09-25 22:15:18,120 INFO Date: 2026-09-25 18:48:16
+2026-09-25 22:15:18,120 INFO Body: --MXhBODlvLTltejYybS1QMg==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_2748578_1759065123.1790351296237"
+
+------=_Part_2748578_1759065123.1790351296237
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+0JzQpNCi0JgKCtCg0LXQs9C40YHRgtGA0LDRhtC40Y8g0LfQsNC60YDRi9Cy0LDQtdGC0YHRjyAy
+NyDRgdC10L3RgtGP0LHRgNGPLgoK0J3QtSDRg9C/0YPRgdGC0LjRgtC1INGB0LLQvtC5INGI0LDQ
+vdGBINC/0YDQvtC60LDRh9Cw0YLRjNGB0Y8g0LIg0JjQoiDQvdCwIFRydWUgVGVjaCBDaGFtcAoK
+0JfQtNGA0LDQstG
+2026-09-25 22:15:18,120 INFO ----------------------------------------
+2026-09-25 22:15:18,121 INFO From: Код будущего, МФТИ <b'futurecode'@b'it-edu.com'>
+2026-09-25 22:15:18,121 INFO Subject: 🔥🤖 Не упустите свой шанс прокачаться в ИТ на True Tech Champ! 
+2026-09-25 22:15:18,121 INFO Date: 2026-09-25 18:54:44
+2026-09-25 22:15:18,121 INFO Body: --MXhBOEc0LUhJYjNIdS1QMg==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_2731238_1058248251.1790351684994"
+
+------=_Part_2731238_1058248251.1790351684994
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+0JzQpNCi0JgKCtCg0LXQs9C40YHRgtGA0LDRhtC40Y8g0LfQsNC60YDRi9Cy0LDQtdGC0YHRjyAy
+NyDRgdC10L3RgtGP0LHRgNGPLgoK0J3QtSDRg9C/0YPRgdGC0LjRgtC1INGB0LLQvtC5INGI0LDQ
+vdGBINC/0YDQvtC60LDRh9Cw0YLRjNGB0Y8g0LIg0JjQoiDQvdCwIFRydWUgVGVjaCBDaGFtcAoK
+0JfQtNGA0LDQstG
+2026-09-25 22:15:18,121 INFO ----------------------------------------
