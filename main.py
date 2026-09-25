@@ -7,6 +7,7 @@ for the mail that arrived since the last one — the archive is never imported.
 
 import email.header
 import logging
+import re
 import sqlite3
 import sys
 from datetime import datetime, timedelta
@@ -77,13 +78,6 @@ def _decode(value) -> str:
     )
 
 
-def _text(value) -> str:
-    """Decode a message body. Not an encoded-word, so no header decoding."""
-    if not value:
-        return ""
-    return value.decode("utf-8", errors="replace") if isinstance(value, bytes) else value
-
-
 def _body(msg: dict) -> bytes:
     """Body bytes of a fetch response.
 
@@ -91,6 +85,45 @@ def _body(msg: dict) -> bytes:
     so take the one bytes-valued entry instead of looking BODY_SPEC up.
     """
     return next((v for v in msg.values() if isinstance(v, bytes)), b"")
+
+
+def _part_text(part) -> str:
+    """Decoded text of one MIME part; quoted-printable/base64 via the email package."""
+    payload = part.get_payload(decode=True)
+    if payload is None:  # not encoded, or a nested multipart
+        raw = part.get_payload()
+        return raw if isinstance(raw, str) else ""
+    return payload.decode(part.get_content_charset() or "utf-8", errors="replace")
+
+
+def plain_text(raw: bytes) -> str:
+    """Best-effort plain text of a message body (ours arrives truncated).
+
+    BODY[TEXT] is a body *section*: it has no top-level headers, so a multipart
+    one starts at a `--boundary` line (often after a "This is a multi-part
+    message" preamble) and email.message_from_bytes would read it as one text
+    blob. Re-add the header it is missing. The boundary must be followed by a
+    part header, so a `--` divider in an ordinary text mail is not mistaken for
+    one.
+
+    Attachments are dropped and text/plain wins over text/html. ponytail: the html
+    fallback is a regex tag strip, not an entity-aware parser — upgrade to
+    html.parser if tags ever show up in stored text.
+    """
+    m = re.search(rb"(?m)^(--\S{6,})[ \t\r]*$", raw)
+    if m and re.match(rb"Content-[A-Za-z-]+:", raw[m.end() :].lstrip(b"\r\n")):
+        raw = b"Content-Type: multipart/mixed; boundary=" + m.group(1)[2:] + b"\r\n\r\n" + raw[m.start() :]
+    msg = email.message_from_bytes(raw)
+    plain, html = [], []
+    for part in msg.walk() if msg.is_multipart() else [msg]:
+        if part.get_content_disposition() == "attachment":
+            continue
+        if part.get_content_type() == "text/plain":
+            plain.append(_part_text(part))
+        elif part.get_content_type() == "text/html":
+            html.append(_part_text(part))
+    text = "\n".join(plain) or re.sub(r"<[^>]+>", " ", "\n".join(html))
+    return re.sub(r"\n{3,}", "\n\n", text).strip()
 
 
 def _format_sender(env) -> str:
@@ -191,7 +224,7 @@ def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
             _format_sender(env),
             _decode(env.subject),
             str(env.date) if env.date else "",
-            _text(_body(msg)),
+            plain_text(_body(msg)),
         ),
     )
     return cur.rowcount == 1
@@ -212,7 +245,7 @@ def _ingest(
         LOG.info(f"From: {_format_sender(env)}")
         LOG.info(f"Subject: {_decode(env.subject)}")
         LOG.info(f"Date: {env.date}")
-        LOG.info(f"Body: {_text(_body(msg))[:500]}")
+        LOG.info(f"Body: {plain_text(_body(msg))[:500]}")
         LOG.info("-" * 40)
 
 
