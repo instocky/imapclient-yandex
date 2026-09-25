@@ -56,11 +56,20 @@ nano .env
 Заполнить:
 
 ```ini
-IMAP_USER=your-address@yandex.ru
-IMAP_PASSWORD=app-password-here
+# Список аккаунтов — JSON-массив в одну строку (dotenv не умеет многострочные
+# значения, многострочный JSON молча падает на парсинге).
+ACCOUNTS=[{"user":"first@yandex.ru","password":"app-password-1"},{"user":"second@yandex.ru","password":"app-password-2"}]
 ```
 
 Использовать пароль приложения Yandex.
+
+Первый запуск по каждому новому аккаунту подтягивает только вчерашние письма
+(`SINCE`) и запоминает курсор `UID`; архив не импортируется. Состояние лежит в
+таблице `state`, сбросить его — значит повторить первую загрузку:
+
+```bash
+uv run python -c "import sqlite3;sqlite3.connect('data/mail.db').execute('DELETE FROM state')"
+```
 
 ## 7. Тестовый запуск
 
@@ -79,8 +88,13 @@ crontab -e
 Добавить (без редиректа в файл — логом теперь владеет само приложение через `logging` + `TimedRotatingFileHandler`):
 
 ```cron
-*/30 * * * * cd /opt/imapclient-yandex && /home/adlab/.local/bin/uv run python main.py
+*/30 * * * * cd /opt/imapclient-yandex && flock -n /tmp/imapclient-yandex.lock /home/adlab/.local/bin/uv run python main.py
 ```
+
+> `flock` защищает от пересечения запусков: пока идёт текущий, следующий
+> пропускается (новые письма подхватит следующий запуск по курсору `UID`).
+> Ручные запуски `uv run python main.py` блокировку не используют — не запускайте
+> их параллельно с кроном.
 
 > Важно: не добавляйте `>> cron.log 2>&1`. Приложение само пишет в `cron.log` и ротирует его в полночь. Если оставить shell-редирект, после ротации cron продолжит писать в переименованный старый файл.
 

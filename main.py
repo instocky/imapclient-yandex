@@ -1,13 +1,15 @@
 """Spike v3: fetch Yandex Mail INBOX via IMAP for one or more accounts, persist new mail in SQLite.
 
-Multi-tenant via ACCOUNTS list in .env (JSON). Dedup per account by IMAP uid
-keeps re-runs clean.
+Multi-tenant via ACCOUNTS list in .env (single-line JSON). Progress is tracked
+per account as an IMAP uid cursor in the `state` table, so a run only ever asks
+for the mail that arrived since the last one — the archive is never imported.
 """
 
 import email.header
 import logging
 import sqlite3
 import sys
+from datetime import datetime, timedelta
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
@@ -130,8 +132,24 @@ def _init_db() -> sqlite3.Connection:
             DROP TABLE _emails_legacy;
             """
         )
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS state (key TEXT PRIMARY KEY, value TEXT NOT NULL)"
+    )
     conn.commit()
     return conn
+
+
+def _state(conn: sqlite3.Connection, key: str) -> str | None:
+    row = conn.execute("SELECT value FROM state WHERE key = ?", (key,)).fetchone()
+    return row[0] if row else None
+
+
+def _set_state(conn: sqlite3.Connection, key: str, value: str) -> None:
+    conn.execute(
+        "INSERT INTO state (key, value) VALUES (?, ?) "
+        "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+        (key, value),
+    )
 
 
 def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
@@ -154,28 +172,11 @@ def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
     return cur.rowcount == 1
 
 
-def _stored_uids(conn: sqlite3.Connection, account: str) -> set:
-    return {
-        r[0]
-        for r in conn.execute("SELECT uid FROM emails WHERE account = ?", (account,))
-    }
-
-
-def fetch_new_emails(client: IMAPClient, account: str, conn: sqlite3.Connection) -> None:
-    client.select_folder("INBOX")
-    # Fetch only uids first (cheap), then pull full data for those not
-    # already stored. Keeps "mirror whole INBOX" invariant without
-    # re-downloading bodies of old mail every run.
-    uids = client.search("ALL")
-    if not uids:
-        LOG.info("No emails.")
-        return
-    missing = [u for u in uids if u not in _stored_uids(conn, account)]
-    if not missing:
-        LOG.info("No new emails.")
-        return
-    data = client.fetch(missing, ["ENVELOPE", "BODY[TEXT]"])
-    for uid, msg in data.items():
+def _ingest(
+    conn: sqlite3.Connection, account: str, client: IMAPClient, uids: list[int]
+) -> None:
+    """Store the given uids and log whatever is new. No commit — caller decides."""
+    for uid, msg in client.fetch(uids, ["ENVELOPE", "BODY[TEXT]"]).items():
         if not _store(conn, account, uid, msg):
             continue  # already processed in a previous run
         env = msg[b"ENVELOPE"]
@@ -184,6 +185,41 @@ def fetch_new_emails(client: IMAPClient, account: str, conn: sqlite3.Connection)
         LOG.info(f"Date: {env.date}")
         LOG.info(f"Body: {_decode(msg.get(b'BODY[TEXT]'))[:500]}")
         LOG.info("-" * 40)
+
+
+def sync_account(client: IMAPClient, account: str, conn: sqlite3.Connection) -> None:
+    """Bring one account up to date.
+
+    Uids are monotonic while UIDVALIDITY is unchanged, so the cursor is a uid, not
+    a date: SINCE has day granularity and misses old-dated mail. A new (or
+    recreated) mailbox is seeded with SINCE yesterday and its cursor pinned at
+    UIDNEXT-1 — not at max(found), or mail that SINCE skipped but that has a
+    higher uid would be lost forever.
+    """
+    client.select_folder("INBOX")
+    status = client.folder_status("INBOX", ["UIDVALIDITY", "UIDNEXT"])
+    uidvalidity, uidnext = int(status[b"UIDVALIDITY"]), int(status[b"UIDNEXT"])
+
+    if _state(conn, f"uidvalidity:{account}") != str(uidvalidity):
+        LOG.info(f"first run (uidvalidity={uidvalidity}), seeding with SINCE yesterday")
+        # local date: INTERNALDATE is compared in the mailbox's own timezone
+        yesterday = datetime.now().astimezone().date() - timedelta(days=1)
+        _ingest(conn, account, client, list(client.search(["SINCE", yesterday])))
+        _set_state(conn, f"uidvalidity:{account}", str(uidvalidity))
+        _set_state(conn, f"last_uid:{account}", str(uidnext - 1))
+    else:
+        last = int(_state(conn, f"last_uid:{account}") or 0)
+        # Servers may answer `UID n:*` with the mailbox's highest uid even when
+        # n is past it, so drop anything at or below the cursor ourselves.
+        found = [u for u in client.search([f"{last + 1}:*"]) if u > last]
+        if not found:
+            LOG.info(f"no new emails (uid > {last})")
+            return
+        _ingest(conn, account, client, found)
+        _set_state(conn, f"last_uid:{account}", str(max(found)))
+
+    # Emails and cursor land in the same transaction: a crash mid-fetch replays
+    # the same uid range next run instead of skipping it.
     conn.commit()
 
 
@@ -191,7 +227,7 @@ def run_once(account: Account, conn: sqlite3.Connection) -> None:
     # Connection per run; context manager logs out and closes on exit.
     with IMAPClient(account.host, port=account.port, ssl=True) as client:
         client.login(account.user, account.password)
-        fetch_new_emails(client, account.user, conn)
+        sync_account(client, account.user, conn)
 
 
 def main() -> None:
