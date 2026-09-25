@@ -22,6 +22,9 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # readable output on
 DB_PATH = Path("data/mail.db")
 LOG_PATH = Path("cron.log")
 LOG = logging.getLogger("imapclient-yandex")
+# email.header.decode_header is O(n^2): one junky multi-MB header (a 23 MB body in
+# this mailbox) is enough to hang a run for minutes. Headers get truncated.
+HEADER_MAX = 1000
 
 
 def _configure_logging() -> None:
@@ -56,16 +59,24 @@ class Settings(BaseSettings):
 
 
 def _decode(value) -> str:
-    """Decode RFC 2047 encoded-words and raw bytes to a plain str."""
+    """Decode an RFC 2047 header into a plain str. Truncated on purpose."""
     if not value:
         return ""
     if isinstance(value, bytes):
         value = value.decode("utf-8", errors="replace")
+    value = value[:HEADER_MAX]
     return "".join(
         chunk if isinstance(chunk, str)
         else chunk.decode(charset or "utf-8", errors="replace")
         for chunk, charset in email.header.decode_header(value)
     )
+
+
+def _text(value) -> str:
+    """Decode a message body. Not an encoded-word, so no header decoding."""
+    if not value:
+        return ""
+    return value.decode("utf-8", errors="replace") if isinstance(value, bytes) else value
 
 
 def _format_sender(env) -> str:
@@ -166,7 +177,7 @@ def _store(conn: sqlite3.Connection, account: str, uid: int, msg: dict) -> bool:
             _format_sender(env),
             _decode(env.subject),
             str(env.date) if env.date else "",
-            _decode(msg.get(b"BODY[TEXT]")),
+            _text(msg.get(b"BODY[TEXT]")),
         ),
     )
     return cur.rowcount == 1
@@ -183,7 +194,7 @@ def _ingest(
         LOG.info(f"From: {_format_sender(env)}")
         LOG.info(f"Subject: {_decode(env.subject)}")
         LOG.info(f"Date: {env.date}")
-        LOG.info(f"Body: {_decode(msg.get(b'BODY[TEXT]'))[:500]}")
+        LOG.info(f"Body: {_text(msg.get(b'BODY[TEXT]'))[:500]}")
         LOG.info("-" * 40)
 
 
